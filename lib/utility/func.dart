@@ -1,7 +1,11 @@
+import 'dart:io';
+import 'package:csv/csv.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:money_transaction/data/transaction.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
 
 bool isValidAmount(TextEditingController controller) {
   // Check if controllerAmount has a valid number
@@ -44,4 +48,27 @@ dynamic addTransaction(
   );
 
   box.add(transactions);
+}
+
+Future<void> exportToExcel(List<TransactionData> transactions) async {
+  // Convert the list of TransactionData objects to rows
+  List<List<dynamic>> rows = [
+    ['تاریخ', 'مبلغ', 'شرح عملیات', 'نوع عملیات'],
+    for (var transaction in transactions)
+      [transaction.time, transaction.amount, transaction.note, transaction.type]
+  ];
+
+  // Generate CSV data
+  String csvData = const ListToCsvConverter().convert(rows);
+
+  // Get application documents directory
+  Directory directory = await getApplicationDocumentsDirectory();
+  String filePath = '${directory.path}/data.csv';
+
+  // Save CSV file
+  File file = File(filePath);
+  await file.writeAsString(csvData);
+
+  // Open file with external application
+  OpenFile.open(filePath);
 }

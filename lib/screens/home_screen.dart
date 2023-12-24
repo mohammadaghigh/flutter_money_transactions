@@ -134,7 +134,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   color: AppColor.whiteColor,
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10))),
-                              child: Icon(Icons.newspaper),
+                              child: Icon(
+                                Icons.newspaper,
+                                color: AppColor.blueColor,
+                              ),
                             ),
                           ),
                           Spacer(),
@@ -157,18 +160,49 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                       SizedBox(
-                        height: 50,
+                        height: 40,
                       ),
                       getResultBox(sum),
                       SizedBox(
-                        height: 65,
+                        height: 40,
                       ),
-                      Text(
-                        'لیست تراکنش ها',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: AppColor.blackColor),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            InkWell(
+                                // style: ElevatedButton.styleFrom(
+                                //     backgroundColor: AppColor.blueColor),
+                                onTap: () async {
+                                  // Fetch TransactionData objects from Hive
+                                  List<TransactionData> transactions =
+                                      box.values.toList();
+
+                                  // Pass the list of transactions to the export function
+                                  await exportToExcel(transactions);
+                                },
+                                child: Container(
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                      color: AppColor.whiteColor,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10))),
+                                  child: Icon(
+                                    Icons.attach_file,
+                                    color: AppColor.blueColor,
+                                  ),
+                                )),
+                            Spacer(),
+                            Text(
+                              'لیست تراکنش ها',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                  color: AppColor.blackColor),
+                            ),
+                          ],
+                        ),
                       ),
                       SizedBox(
                         height: 10,
