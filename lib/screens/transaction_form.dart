@@ -8,36 +8,35 @@ import 'package:money_transaction/widgets/custom_linear_date_picker_widget.dart'
 import 'package:money_transaction/widgets/custom_widgets.dart';
 
 class TransactionForm extends StatefulWidget {
-  final TransactionData? transactionData;
-
   const TransactionForm({Key? key, this.transactionData}) : super(key: key);
+
+  final TransactionData? transactionData;
 
   @override
   State<TransactionForm> createState() => _TransactionFormState();
 }
 
 class _TransactionFormState extends State<TransactionForm> {
-  final FocusNode negahban1 = FocusNode();
-  final FocusNode negahban2 = FocusNode();
+  var box = Hive.box<TransactionData>('transactions');
   final TextEditingController controllerAmount = TextEditingController();
   final TextEditingController controllerNote = TextEditingController();
-
-  var box = Hive.box<TransactionData>('transactions');
-  List<String> type = ['income', 'expense'];
   String currentType = '';
+  final FocusNode negahban1 = FocusNode();
+  final FocusNode negahban2 = FocusNode();
+  late String selectedDate = '';
+  List<String> type = ['income', 'expense'];
 
-  late DateTime selectedDate;
   @override
   void initState() {
     super.initState();
     currentType = type[0];
-    selectedDate = DateTime.now();
 
     if (widget.transactionData != null) {
       // Editing existing transaction
       controllerAmount.text = widget.transactionData!.amount.round().toString();
       controllerNote.text = widget.transactionData!.note;
       currentType = widget.transactionData!.type;
+      selectedDate = widget.transactionData!.time;
     }
 
     negahban1.addListener(() {
@@ -87,11 +86,12 @@ class _TransactionFormState extends State<TransactionForm> {
               SizedBox(
                 height: 50,
               ),
-              // CustomLinearDatePicker(
-              //   dateChangeListener: (selectedDate) {
-              //     print(selectedDate);
-              //   },
-              // ),
+              CustomLinearDatePicker(
+                dateChangeListener: (Date) {
+                  selectedDate = Date;
+                },
+                data: selectedDate,
+              ),
               SizedBox(
                 height: 50,
               ),
@@ -110,7 +110,8 @@ class _TransactionFormState extends State<TransactionForm> {
                           type, selectedDate);
                     } else {
                       // Adding new transaction
-                      addTransaction(amount, note, type);
+
+                      addTransaction(amount, note, type, selectedDate);
                     }
 
                     Navigator.pop(context, true);

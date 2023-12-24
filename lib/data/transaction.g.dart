@@ -18,7 +18,7 @@ class TransactionDataAdapter extends TypeAdapter<TransactionData> {
     };
     return TransactionData(
       amount: fields[0] as double,
-      time: fields[1] as DateTime,
+      time: fields[1] as String,
       note: fields[2] as String,
       type: fields[3] as String,
     );

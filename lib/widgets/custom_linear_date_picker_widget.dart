@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_linear_datepicker/flutter_datepicker.dart';
 import 'package:money_transaction/const/const.dart';
+import 'package:flutter_linear_datepicker/flutter_datepicker.dart';
 
 class CustomLinearDatePicker extends StatelessWidget {
   final Function(String) dateChangeListener;
+  final String data;
 
-  const CustomLinearDatePicker({Key? key, required this.dateChangeListener})
+  const CustomLinearDatePicker(
+      {Key? key, required this.dateChangeListener, required this.data})
       : super(key: key);
 
   @override
@@ -22,7 +24,7 @@ class CustomLinearDatePicker extends StatelessWidget {
           child: LinearDatePicker(
             startDate: "1399/01/01",
             endDate: "1500/12/29",
-            initialDate: "",
+            initialDate: data,
             addLeadingZero: true,
             dateChangeListener: dateChangeListener,
             showDay: true,

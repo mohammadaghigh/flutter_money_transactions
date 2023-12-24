@@ -236,7 +236,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             MaterialPageRoute(
                                               builder: (context) =>
                                                   TransactionForm(
-                                                transactionData: transaction!,
+                                                transactionData: transaction,
                                               ),
                                             ),
                                           );
@@ -264,6 +264,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                         margin: EdgeInsets.all(5.0),
                                         child: ListTile(
                                           title: Text(transaction?.note ?? ''),
+                                          subtitle: Text(
+                                            transaction?.time ?? '',
+                                            style: TextStyle(
+                                                fontSize: 12.0,
+                                                fontFamily: 'vz'),
+                                          ),
                                           leading: transaction?.type == 'income'
                                               ? Icon(
                                                   Icons.arrow_downward,

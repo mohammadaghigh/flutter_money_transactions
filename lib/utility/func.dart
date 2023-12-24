@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter/material.dart';
 import 'package:money_transaction/data/transaction.dart';
 
 bool isValidAmount(TextEditingController controller) {
@@ -24,22 +24,24 @@ String formatNumberWithCommas(double number) {
 }
 
 dynamic editTransaction(TransactionData transactionData, double amount,
-    String note, String type, DateTime selectedDate) {
+    String note, String type, String selectedDate) {
   transactionData.amount = amount;
   transactionData.time = selectedDate;
   transactionData.note = note;
   transactionData.type = type;
-
+  print(transactionData.time);
   transactionData.save();
 }
 
-dynamic addTransaction(double amount, String note, String type) {
+dynamic addTransaction(
+    double amount, String note, String type, String selectedDate) {
   var box = Hive.box<TransactionData>('transactions');
   var transactions = TransactionData(
     amount: amount,
-    time: DateTime.now(),
+    time: selectedDate,
     note: note,
     type: type,
   );
+
   box.add(transactions);
 }

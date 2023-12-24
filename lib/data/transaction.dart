@@ -7,7 +7,7 @@ class TransactionData extends HiveObject {
   @HiveField(0)
   double amount;
   @HiveField(1)
-  DateTime time;
+  String time;
   @HiveField(2)
   String note;
   @HiveField(3)
