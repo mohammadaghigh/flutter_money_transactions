@@ -62,7 +62,7 @@ Future<void> exportToExcel(List<TransactionData> transactions) async {
   String csvData = const ListToCsvConverter().convert(rows);
 
   // Get application documents directory
-  Directory directory = await getApplicationDocumentsDirectory();
+  Directory directory = await getApplicationSupportDirectory();
   String filePath = '${directory.path}/data.csv';
 
   // Save CSV file
